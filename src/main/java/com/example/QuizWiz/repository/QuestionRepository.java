@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface QuestionRepository extends MongoRepository<Question, ObjectId> {
 
-    List<Question> findByCategory();
+    List<Question> findByCategory(String category);
+
+    List<Question> findTopByCategoryOrderByRandom(String category, int limit);
 }

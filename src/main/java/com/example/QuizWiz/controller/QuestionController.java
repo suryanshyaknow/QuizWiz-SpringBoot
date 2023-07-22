@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("questions")
@@ -29,10 +30,20 @@ public class QuestionController {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("questionsByCategory/{category}")
-    public ResponseEntity<List<Question>> getQuestionsByCategory() {
+    @GetMapping("allCategories")
+    public ResponseEntity<Set<String>> getAllCategories() {
         try {
-            return new ResponseEntity<>(questionService.getQuestionsByCategory(), HttpStatus.OK);
+            return new ResponseEntity<>(questionService.getAllCategories(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("questionsByCategory/{category}")
+    public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String category) {
+        try {
+            return new ResponseEntity<>(questionService.getQuestionsByCategory(category), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,6 +70,5 @@ public class QuestionController {
         }
         return new ResponseEntity<>("failed to add question", HttpStatus.BAD_REQUEST);
     }
-
 
 }
